@@ -1,0 +1,96 @@
+/*++
+;
+;Copyright (c) Microsoft Corporation.  All rights reserved.
+;
+;Module Name:
+;    LTR303ALS.INF
+;
+;Abstract:
+;    INF file for installing the Sensors 2.0 LTR303 ALS Driver
+;
+;--*/
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = Sensor
+ClassGuid   = {5175D334-C371-4806-B3BA-71FD53C9258D}
+Provider    = %LITEON% ;Put the name of your company here
+CatalogFile = LTR303.cat
+DriverVer=05/30/2017,8.54.50.545
+
+[DestinationDirs]
+;12 == Windows\System32\Drivers\UMDF
+DefaultDestDir = 12,UMDF
+LTR303DriverCopy = 12,UMDF
+
+[SourceDisksNames]
+1 = %MediaDescription%,,,""
+
+[SourceDisksFiles]
+LTR303.dll   = 1,,
+
+[Manufacturer]
+%LITEON% = LITEON, NTamd64
+
+
+;*******************************
+; LTR303 Install Section
+;*******************************
+
+[LITEON.NTamd64]
+; DisplayName       Section          DeviceId
+; -----------       -------          --------
+%LTR303_DevDesc% = LTR303_Inst, ACPI\LTER0303
+
+[LTR303_Inst.NT]
+CopyFiles = LTR303DriverCopy
+
+[LTR303_Inst.NT.hw]
+
+[LTR303DriverCopy]
+LTR303.dll
+
+;[DestinationDirs]
+;LTR303DriverCopy = 12,UMDF
+
+;-------------- Service installation
+
+[LTR303_Inst.NT.Services]
+AddService = WUDFRd,0x000001fa,WUDFRD_ServiceInstall
+
+[LTR303_Inst.NT.CoInstallers]
+AddReg = CoInstallers_AddReg
+
+[WUDFRD_ServiceInstall]
+DisplayName   = %WudfRdDisplayName%
+ServiceType   = %SERVICE_KERNEL_DRIVER%
+StartType     = %SERVICE_DEMAND_START%
+ErrorControl  = %SERVICE_ERROR_NORMAL%
+ServiceBinary = %12%\WUDFRd.sys
+
+;-------------- WDF specific section
+
+[LTR303_Inst.NT.Wdf]
+UmdfService              = LTR303, LTR303_Install
+UmdfServiceOrder         = LTR303
+UmdfDirectHardwareAccess = AllowDirectHardwareAccess
+UmdfFileObjectPolicy     = AllowNullAndUnknownFileObjects
+UmdfFsContextUsePolicy   = CannotUseFsContexts
+
+[LTR303_Install]
+UmdfLibraryVersion       = 2.15.0
+ServiceBinary            = %12%\UMDF\LTR303.dll
+UmdfExtensions           = SensorsCx0102
+
+[CoInstallers_AddReg]
+HKR,,CoInstallers32,0x00010000,"WudfCoinstaller.dll"
+
+[Strings]
+MediaDescription         = "LTR303"
+LITEON                   = "LITEON"
+LTR303_DevDesc           = "LTR303"
+WudfRdDisplayName        = "Windows Driver Foundation - User-mode Driver Framework Reflector"
+
+SERVICE_KERNEL_DRIVER    = 1
+SERVICE_DEMAND_START     = 3
+SERVICE_ERROR_NORMAL     = 1
