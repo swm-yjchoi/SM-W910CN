@@ -8,7 +8,7 @@
 ;Abstract:
 ;    INF file for installing the Sensors 2.0 BoschAccelerometer sensor driver
 ;
-;Installation Notes:
+;Installation Notes: 
 ;    Using Devcon: Type "devcon install BoschAccelerometer.inf umdf2\BoschAccelerometer" to install
 ;
 ;--*/
@@ -19,7 +19,11 @@ Class       = Sensor
 ClassGuid   = {5175D334-C371-4806-B3BA-71FD53C9258D}
 Provider    = %BOSCH%
 CatalogFile = BoschAccelerometer.cat
-DriverVer = 08/21/2019,1.0.1.3
+DriverVer=08/26/2015,1.02.00
+
+[DestinationDirs]
+;12 == Windows\System32\Drivers\UMDF
+DefaultDestDir = 12,UMDF
 
 [SourceDisksNames]
 1 = %MediaDescription%,,,""
@@ -97,4 +101,3 @@ WudfRdDisplayName        = "Windows Driver Foundation - User-mode Driver Framewo
 SERVICE_KERNEL_DRIVER    = 1
 SERVICE_DEMAND_START     = 3
 SERVICE_ERROR_NORMAL     = 1
-
