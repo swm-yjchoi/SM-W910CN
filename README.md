@@ -6,6 +6,7 @@
 윈도우즈를 새로 설치하는 경우 유용하게 사용하시길 바랍니다. (가급적 아래 순서로 설치하시길 바랍니다)
 </br></br>
 
+## Windows 10 64bit driver list (32bit는 확인되지 않았습니다)
 Device ID | Driver folder	| Inf	file | Version |
 --|--|--|--|
 ACPI\INT33BD|Intel\ATOM\MBI|MBI.inf|09/24/2015,604.10146.2655.6883|
